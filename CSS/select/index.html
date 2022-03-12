@@ -7,6 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>选择器</title>
     <style>
+        @import 'style.css';
+
+        body {
+            background-color: #000;
+        }
+
         .seq {
             color: blueviolet;
         }
@@ -16,14 +22,26 @@
         }
 
         p {
-            color: blue;
+            height: 200px;
+            /* 计算属性 */
+            width: calc(20vw - 30px);
+            background-color: yellowgreen;
+            transform: rotate(0.7turn);
+            margin: 30px;
         }
+
+        @media(min-width: 20em) {
+            body {
+                background-color: aqua;
+            }
+        }
+        /* 虽然速记经常允许您忽略值，但它们会将不包含的任何值重置为它们的初始值 */
     </style>
 </head>
 
 <body>
     <!-- 类选择器优先级大于标签选择器 -->
-    <!-- 同级标签，谁在样式表中靠后听谁的 -->
+    <!-- 同级类标签，谁在样式表中靠后听谁的 -->
     <p class="special seq">this is a p</p>
 </body>
 
