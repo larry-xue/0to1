@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闭包</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * 闭包的作用：
+     * 1. 维护私有变量
+     * 2. 延长变量的生命周期
+     * 3. Vue中的data就是闭包（vue中每个组件维护一个私有变量）
+     **/
+    let a = 'global';
+
+    function fn1() {
+        let b = 'local';
+    }
+
+    function counter() {
+        let count = 0;
+        function doSomeThing(val) {
+            count += val;
+        }
+        return {
+            add: () => {
+                doSomeThing(1);
+            },
+            reduce: () => {
+                doSomeThing(-1);
+            },
+            value() {
+                return count;
+            }
+        }
+    }
+
+    const count1 = counter();
+    console.log(count1.value());
+    count1.add();
+    console.log(count1.value());
+    count1.reduce();
+    console.log(count1.value());
+</script>
+
+</html>
