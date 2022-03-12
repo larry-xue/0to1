@@ -1,0 +1,12 @@
+html {
+  font-size: 20px;
+}
+
+ul {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+li {
+  margin-left: 20px;
+}
