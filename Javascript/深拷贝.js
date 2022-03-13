@@ -35,6 +35,8 @@ function deepCopy(obj) {
             }
         }
         return arr;
+    } else if (type === 'Null') {
+        return null;
     }
 }
 
@@ -46,6 +48,37 @@ const obj = {
     d: [1, 2, { cc: '123' }]
 }
 
-const copy_obj = deepCopy(obj);
-console.log(obj === copy_obj)
-console.log(copy_obj);
+// const copy_obj = deepCopy(obj);
+// console.log(obj === copy_obj)
+// console.log(copy_obj);
+// console.log(deepCopy(null))
+/**
+ * 深拷贝优化版
+ *
+ * @param {*} source
+ * @returns {*}  
+ */
+function deepClone2(source) {
+    let target;
+    console.log(source.constructor);
+    if (source.constructor === Array || source.constructor === Object) {
+        target = source.constructor === Array ? [] : {};
+        for (let key in source) {
+            if (source.hasOwnProperty(key)) {
+                if (source[key] && typeof source[key] === 'object') {
+                    target[key] = deepClone2(source[key]);
+                } else {
+                    target[key] = source[key];
+                }
+            }
+        }
+    } else {
+        target = source;
+    }
+    return target;
+}
+
+console.log(deepClone2(function () { }))
+console.log(deepClone2([]))
+console.log(deepClone2(1))
+console.log(deepClone2(obj))
