@@ -10,12 +10,13 @@ function myPromise(executor) {
     self.onRejectedCallbacks = [];
 
     function resolve(data) {
+        console.log(data);
         if (self.status === 'PENDING') {
             self.status = 'RESOLVE';
             self.value = data;
             // 之前我担心遍历执行回调的时候会把data传给不属于这个onFulfilled的函数
             // 但是转念一想，一个Promise只会保存一个onFulfilled 和一个 onRejected
-            self.onFulfilledCallbacks.forEach((onFulfilled => onFulfilled(data)));
+            self.onFulfilledCallbacks.forEach(fulfilled => fulfilled(data));
         }
     }
 
@@ -23,7 +24,6 @@ function myPromise(executor) {
         if (self.status === 'PENDING') {
             self.status = 'REJECTED';
             self.reason = err;
-
             self.onRejectedCallbacks.forEach((onRejected => onRejected(err)));
         }
     }
@@ -36,18 +36,28 @@ function myPromise(executor) {
 }
 
 myPromise.prototype.then = function (onFulfilled, onRejected) {
+    const self = this;
+    // 这么写为什么无法实现then方法的值穿透
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
+    onRejected = typeof onRejected === 'function' ? onRejected : err => { throw (err) };
     return new myPromise((resolve, reject) => {
-        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : () => {};
-        onRejected = typeof onRejected === 'function' ? onRejected : () => {};
-
-        const self = this;
         if (self.status === 'RESOLVE') {
             setTimeout(() => {
-                onFulfilled(self.value);
+                try {
+                    const res = onFulfilled(self.value);
+                    resolve(res);
+                } catch (err) {
+                    reject(err);
+                }
             })
         } else if (self.status === 'REJECTED') {
             setTimeout(() => {
-                onRejected(self.reason);
+                try {
+                    const res = onRejected(self.reason);
+                    resolve(res);
+                } catch (err) {
+                    reject(err);
+                }
             })
         } else if (self.status === 'PENDING') {
             // 暂存回调函数
@@ -59,18 +69,28 @@ myPromise.prototype.then = function (onFulfilled, onRejected) {
 }
 
 const demo = new myPromise((resolve, reject) => {
-    console.log('1');
-    setTimeout(() => {
-        resolve([1, 2, 3]);
-    }, 2000);
+    console.log('in demo promise');
+    // setTimeout(() => {
+    //     resolve([1, 2, 3]);
+    // }, 2000);
+    resolve([1, 2, 3]);
 })
 
 demo.then((res) => {
-    console.log(res);
-}).then((res) => {
-    console.log(res);
-})
+    console.log('first then: ' + res);
+    return 'azoux';
+}).then(
+    res => {
+        console.log(res);
+        return 'gogogogo';
+}).then().then(
+        (res) => {
+            console.log('in new promise resolved')
+            console.log(res);
+        },
+        (err) => {
+            console.log('rejected: ' + err);
+        }
+    )
 
-
-
-
+console.log('step one');

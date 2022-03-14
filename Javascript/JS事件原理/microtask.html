@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微任务</title>
+</head>
+<body>
+    <button id="btn">submit</button>
+</body>
+<script>
+    const btn = document.getElementById('btn');
+    btn.addEventListener('click', () => {
+        Promise.resolve().then(() => {
+            console.log('mcrotask 1');
+        })
+        console.log('listener 1');
+    })
+    btn.addEventListener('click', () => {
+        Promise.resolve().then(() => {
+            console.log('mcrotask 2');
+        })
+        console.log('listener 2');
+    })
+
+    btn.click();
+
+    setTimeout(() => {
+        console.log('timeout');
+    }, 0);
+    new Promise((resolve) => {
+        console.log('in promise before resolve');
+        resolve();
+        console.log('in promise after resolve');
+    }).then(() => {
+        console.log('in rhen');
+    })
+
+</script>
+</html>
