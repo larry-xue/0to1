@@ -10,32 +10,43 @@
     <button id="btn">submit</button>
 </body>
 <script>
-    const btn = document.getElementById('btn');
-    btn.addEventListener('click', () => {
-        Promise.resolve().then(() => {
-            console.log('mcrotask 1');
+    // const btn = document.getElementById('btn');
+    // btn.addEventListener('click', () => {
+    //     Promise.resolve().then(() => {
+    //         console.log('mcrotask 1');
+    //     })
+    //     console.log('listener 1');
+    // })
+    // btn.addEventListener('click', () => {
+    //     Promise.resolve().then(() => {
+    //         console.log('mcrotask 2');
+    //     })
+    //     console.log('listener 2');
+    // })
+
+    // btn.click();
+
+    // setTimeout(() => {
+    //     console.log('timeout');
+    // }, 0);
+    // new Promise((resolve) => {
+    //     console.log('in promise before resolve');
+    //     resolve();
+    //     console.log('in promise after resolve');
+    // }).then(() => {
+    //     console.log('in rhen');
+    // })
+
+    const asyncForEach = function(array, cb) {
+        array.forEach((i) => {
+            setTimeout(() => { cb(i); }, 0);
         })
-        console.log('listener 1');
-    })
-    btn.addEventListener('click', () => {
-        Promise.resolve().then(() => {
-            console.log('mcrotask 2');
-        })
-        console.log('listener 2');
+    }
+
+    asyncForEach([1,2,3,4], (i) => {
+        console.log(i);
     })
 
-    btn.click();
-
-    setTimeout(() => {
-        console.log('timeout');
-    }, 0);
-    new Promise((resolve) => {
-        console.log('in promise before resolve');
-        resolve();
-        console.log('in promise after resolve');
-    }).then(() => {
-        console.log('in rhen');
-    })
 
 </script>
 </html>

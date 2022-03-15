@@ -20,9 +20,7 @@ class myPromise {
             this.value = data;
             setTimeout(() => {
                 this.callbacks.forEach((callback) => {
-                    console.dir(callback.onFulfilled);
-                    const res = callback.onFulfilled(this.value);
-                    console.log('res = ' + res);
+                    callback.onFulfilled(this.value);
                 })
             })
         }
@@ -77,24 +75,99 @@ class myPromise {
             }
         })
     }
+
+    static resolve(val) {
+        if (val instanceof myPromise) {
+            return val;
+        } else {
+            return new myPromise((resolve, reject) => {
+                // 这里的this是指向何处？
+                resolve(val);
+            })
+        }
+    }
+
+    static reject(val) {
+        return new myPromise((resolve, reject) => {
+            reject(val);
+        })
+    }
+
+    static all(promises) {
+        const values = [];
+        return new myPromise((resolve, reject) => {
+            promises.forEach(p => {
+                p.then(res => {
+                    values.push(res);
+                    if (values.length === promises.length) resolve(values);
+                },
+                err => {
+                    reject(err);
+                });
+            });
+        });
+    }
+
+    static race(promises) {
+        return new myPromise((resolve, reject) => {
+            promises.forEach((p) => {
+                p.then(res => {
+                    resolve(res);
+                }, err => {
+                    reject(err);
+                })
+            })
+        })
+    }
 }
 
-const demo = new myPromise((resolve, reject) => {
-    console.log('第一步')
-    resolve('第二步');
-}).then(
+
+const p1 = new myPromise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('123');
+    }, 1000);
+})
+
+const p2 = new myPromise((resolve) => {
+    setTimeout(() => {
+        resolve('456');
+    }, 1000);
+})
+
+myPromise.all([p1, p2]).then(
     res => {
-        console.log('onfulfilled: ' + res);
-        return 'yoyoyo';
+        console.log(res);
     },
     err => {
         console.log(err);
     }
 )
-.then()
-.then((res) => {
-    console.log('second : ' + res);
-})
+
+myPromise.race([p1, p2]).then(
+    res => {
+        console.log(res);
+    },
+    err => {
+        console.log(err);
+    }
+)
+
+// const demo = new myPromise((resolve, reject) => {
+//     console.log('第一步')
+//     resolve('第二步');
+// }).then(
+//     res => {
+//         console.log('onfulfilled: ' + res);
+//         return 'yoyoyo';
+//     },
+//     err => {
+//         console.log(err);
+//     }
+// )
+// .then()
+// .then((res) => {
+//     console.log('second : ' + res);
+// })
 
 // console.log(demo);
 
@@ -114,4 +187,35 @@ const demo = new myPromise((resolve, reject) => {
 // .then((res) => {
 //     console.log('second : ' + res);
 // })
-console.log('第三步')
+// console.log('第三步')
+
+// const test = new myPromise((resolve) => {
+//     console.log('in test');
+//     resolve('success!');
+// })
+
+// myPromise.resolve(test).then((res) => {
+//     setTimeout(() => {
+//         console.log(res);
+//     }, 0);
+//     return '1212322';
+// }).then((res) => {
+//     console.log(res);
+// })
+
+// myPromise.reject('any way').then(null, err => {
+//     console.log(err);
+// })
+
+
+// 原生promise
+// Promise.resolve(new Promise(resolve => {
+//     resolve('success promise');
+// })).then((res) => {
+//     console.log('in origin');
+//     console.log(res);
+// })
+
+// Promise.reject('error').then(null, err => {
+//     console.log(err);
+// })
