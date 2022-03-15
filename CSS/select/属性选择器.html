@@ -6,30 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>属性选择器</title>
+    <link rel="stylesheet" href="">
     <style>
         li[class] {
             font-size: 200%;
         }
-
+        
         li[class="a"] {
             background-color: yellow;
         }
-
+        
         li[class~="a"] {
             color: red;
         }
-
+        
         li[class|='a'] {
             color: aqua;
         }
-
         /* first-child 说的是第一个li */
+        
         li:first-child::first-line {
             font-size: 120%;
             font-weight: bold;
         }
-
         /* 这些伪元素的更推荐的用法是插入一个图标 */
+        
         li:first-child::before {
             content: '➥';
         }
@@ -40,9 +41,8 @@
     <h1>Attribute presence and value selectors</h1>
     <ul>
         <li>
-            Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item
-            1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item
-            1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1
+            Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item 1Item
+            1Item 1Item 1Item 1Item 1Item 1Item 1
         </li>
         <li class="a">Item 2</li>
         <li class="a b">Item 3</li>

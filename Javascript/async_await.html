@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async, await</title>
+</head>
+<body>
+    
+</body>
+<script>
+    async function foo() {
+        let p = new Promise((resolve, reject) => {
+            console.log(1);
+            setTimeout(resolve, 1000, 3);
+        })
+        console.log(await p);
+        // await 会暂停下面代码的执行，直到异步函数返回
+        // 可以说相当于是then
+        console.log(4);
+    }
+
+    // foo();
+
+    // 这个例子证明awiat抛出的其实是一个异步的microtask
+    // 因为setTimeout的回调是一个宏任务，所以会先打印出await
+    // setTimeout(console.log,0, 'timeout');
+    // async function bar() {
+    //     console.log(await 'await');
+    // }
+    // bar();
+
+    // 微任务
+    async function foo() {
+        console.log(await Promise.resolve('foo'));
+    }
+
+    async function bar() {
+        console.log(await 'bar');
+    }
+
+    async function baz() {
+        console.log('baz');
+    }
+
+    foo();
+    bar();
+    baz();
+
+    // baz
+    // bar
+    // foo
+    // console.log(2);
+
+    // Promise.resolve是立即执行的
+    console.log(Promise.resolve(2).then(console.log)); 
+</script>
+</html>

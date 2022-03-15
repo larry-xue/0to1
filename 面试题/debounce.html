@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在一个事件循环内对所有调用防抖</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function f() {
+        console.log(1);
+    }
+
+    function debounce(fn) {
+        let cnt = 0;
+
+        return function doing() {
+            if (cnt === 0) {
+                cnt++;
+                fn();
+                // 在下次事件循环的时候清零
+                setTimeout(() => {
+                    cnt = 0;
+                }, 0);
+            }
+        }
+    }
+
+    G = debounce(f);
+
+    function A() {
+        G();
+        G();
+        G();
+    }
+
+    A();
+</script>
+
+</html>
