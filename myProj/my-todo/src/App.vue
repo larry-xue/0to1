@@ -1,20 +1,27 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <TodoView />
+    <TabSwitch></TabSwitch>
+    <div id="main">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import TodoView from './view/TodoView.vue';
+// import TodoView from './view/TodoView.vue';
+import TabSwitch from './components/TabSwitch.vue';
 
 export default {
   name: 'App',
   components: {
     // HelloWorld
-    TodoView,
+    // TodoView,
+    TabSwitch
+  },
+  mounted() {
+    console.log(this.$router);
+    console.log(this.$myStore);
   }
 }
 </script>

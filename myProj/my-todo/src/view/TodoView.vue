@@ -2,23 +2,17 @@
     <div id="todo">
         <CustomInput type="text" v-model.trim="inputVal" />
         <button @click="addTodo">add</button>
-        <ul class="Todos" ref="todoDOM">
-            <TodoItem v-for="todo in todoList" :key="todo.created" :todo="todo" @deleteTodo="deleteTodo">
-            </TodoItem>
-        </ul>
     </div>
 </template>
 
 <script>
-import TodoItem from '../components/TodoItem.vue';
 import CustomInput from '../components/CustomInput.vue';
 // import event from '../event';
 
 export default {
     name: 'TodoView',
       components: {
-          TodoItem,
-          CustomInput
+          CustomInput,
   },
     data() {
         return {
@@ -28,19 +22,19 @@ export default {
     },
     methods: {
         addTodo() {
-            console.log(this.inputVal);
+            // console.log(this.inputVal);
             if (this.inputVal) {
                 // 不为空
-                this.todoList.push({
+                this.$store.commit('addTodo', {
                     text: this.inputVal,
                     created: Date.now()
                 });
                 this.inputVal = '';
                 // console.log(this.$refs.todoDOM.children.length);  获取不到添加完的dom元素个数
-                this.$nextTick(() => {
-                    // 渲染完成后，异步获取
-                    console.log(this.$refs.todoDOM.children.length);
-                })
+                // this.$nextTick(() => {
+                //     // 渲染完成后，异步获取
+                //     console.log(this.$refs.todoDOM.children.length);
+                // })
             }
         },
         deleteTodo(created) {
