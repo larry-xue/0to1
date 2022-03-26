@@ -1,7 +1,7 @@
 // CommonJS 语法
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     mode: 'development',
@@ -29,10 +29,26 @@ module.exports = {
             include: path.join(__dirname, 'src'),
             exclude: /node_modules/
         }, {
-            test: /.png$/,
-            use: 'file-loader',
+            test: /.(png|jpg|gif)$/,
+            // use: 'file-loader',
+            use: {
+                loader: 'url-loader',
+                options: {
+                    // 中括号语法：占位符
+                    name: '[name]_[hash].[ext]',
+                    outputPath: 'images/',
+                    limit: 4096 // 如果图片大于4kb就单独打包成文件
+                }
+            },
             include: path.join(__dirname, 'src'),
             exclude: /node_modules/
+        }, {
+            test: /.scss$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                'sass-loader'
+            ]
         }]
     }
 }

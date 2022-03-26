@@ -1,8 +1,8 @@
 import logo from './logo.png';
+// import './index.css';
+import './index.scss'
 
 // ES6
-console.log('Hello s!');
-
 setTimeout(() => {
     console.log('j1j1j1')
 }, 0);
