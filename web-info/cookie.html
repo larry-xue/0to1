@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cookie</title>
+</head>
+
+<body>
+    <form>
+        <input type="text" placeholder="username=?" id="username">
+        <input type="password" placeholder="password" id="password">
+        <input type="checkbox" id="check">
+        <button>submit</button>
+    </form>
+    <script>
+        const btn = document.querySelector('button');
+        const checkbox = document.querySelector('#check');
+        const username = document.querySelector('#username');
+        const password = document.querySelector('#password');
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (checkbox.checked && username.value != '') {
+                const value = encodeURIComponent(username.value);
+                const key = 'myname';
+                const time = 24 * 60 * 60; // 1 day
+                document.cookie = `${key}=${value}; max-age=${time}`
+                console.log(value);
+                console.log(document.cookie);
+            }
+        })
+    </script>
+</body>
+
+</html>

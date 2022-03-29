@@ -28,6 +28,56 @@ loader可以扩展webpack能打包的文件类型，帮助我们处理不同模�
 - style-loader
 - sass-loader 
 - postcss-loader
+  - 根据不同浏览器内核更改css属性
+
+### css模块化
+```js
+import styles from './index.scss';
+```
+
+### SourceMap
+dist/boundle.js 第8行 -> src/index.js 第1行
+SourceMap 建立映射关系
+
+#### 配置SourceMap
+
+```js
+    devtool: false,
+    devtool: 'eval-source-map',
+    // devtool: false, // 不想用SourceMap
+    devtool: 'source-map', // 最简单的配置方法
+    devtool: 'inline-source-map',
+    devtool: 'inline-cheap-source-map', // 只会去记录业务代码的错误，不会去记录第三方模块和loader
+    devtool: 'inline-cheap-module-source-map', // 可以记录第三方模块和loader
+    devtool: 'eval', // 速度最快，一旦项目复杂，错误代码行数显示不准确
+    devtool: 'eval-cheap-module-source-map', // 比较折中的选择
+```
+
+### 什么是WebpackDevServer
+
+有变更时，自动打包
+
+#### 使用WDS实现请求转发
+开发时，可以使用相对路径
+```js
+    devServer: {
+        port: 7999,
+        static: path.join(__dirname, 'dist'),
+        proxy: {
+            '/test/api/breeds/image/random': {
+                target: 'https://dog.ceo/',
+                changeOrigin: true,
+                pathRewrite: {
+                  '^/api': ''
+                }
+            }
+        }
+    },
+```
+
+#### HMR模块热替换
+
+### file-loader打包字体图标
 
 ## 什么是plugins
 
