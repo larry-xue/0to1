@@ -1,0 +1,19 @@
+# Vue组件通信方式
+- pros和$emit
+  - pros父到子
+  - $emit子到父
+    - emit属性
+- 自定义事件
+  - Vue2: new Vue() => event
+  - Vue3: 引入第三方的自定义事件
+  - 监听&解绑
+    - event.on()
+    - event.off() 内存泄露，解绑需要传入相同函数（引用 ）
+- $attr
+  - 用来获取没有接收的属性
+  - pros和emit的候补
+- $parent
+- $refs
+- provide/inject
+  - 多层级组件通信
+- Vuex
