@@ -9,7 +9,7 @@
   - 监听&解绑
     - event.on()
     - event.off() 内存泄露，解绑需要传入相同函数（引用 ）
-- $attr
+- $attrs
   - 用来获取没有接收的属性
   - pros和emit的候补
 - $parent

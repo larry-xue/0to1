@@ -98,12 +98,12 @@ class myPromise {
         return new myPromise((resolve, reject) => {
             promises.forEach(p => {
                 p.then(res => {
-                    values.push(res);
-                    if (values.length === promises.length) resolve(values);
-                },
-                err => {
-                    reject(err);
-                });
+                        values.push(res);
+                        if (values.length === promises.length) resolve(values);
+                    },
+                    err => {
+                        reject(err);
+                    });
             });
         });
     }
@@ -219,3 +219,13 @@ myPromise.race([p1, p2]).then(
 // Promise.reject('error').then(null, err => {
 //     console.log(err);
 // })
+
+const pp1 = Promise.resolve(1);
+const pp2 = Promise.reject(2);
+const pp3 = Promise.resolve(3);
+
+const list = [pp1, pp2, pp3];
+
+Promise.all(list).then(res => {
+    console.log(res);
+})
