@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+
+<body>
+
+    <ul>
+        <li>Animals
+            <ul>
+                <li>Mammals
+                    <ul>
+                        <li>Cows</li>
+                        <li>Donkeys</li>
+                        <li>Dogs</li>
+                        <li>Tigers</li>
+                    </ul>
+                </li>
+                <li>Other
+                    <ul>
+                        <li>Snakes</li>
+                        <li>Birds</li>
+                        <li>Lizards</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Fishes
+            <ul>
+                <li>Aquarium
+                    <ul>
+                        <li>Guppy</li>
+                        <li>Angelfish</li>
+                    </ul>
+                </li>
+                <li>Sea
+                    <ul>
+                        <li>Sea trout</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+        function findSon(node) {
+            let cnt = 0;
+            for (let val of node.children) {
+                if (val.tagName == 'LI') cnt++;
+                cnt += findSon(val);
+            }
+            return cnt;
+        }
+        // ... your code...
+        const lis = document.querySelectorAll('li')
+        for (let val of lis) {
+            let text = val.firstChild;
+            console.log(`${text.data}: ${findSon(val)}`);
+            // 或者使用val.getElemntByTagName('li')来获取子孙中li的个数
+        }
+    </script>
+
+</body>
+
+</html>

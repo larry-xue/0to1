@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <a name="list">The list:</a>
+    <ul>
+        <li><a href="http://google.com">http://google.com</a></li>
+        <li><a href="/tutorial">/tutorial.html</a></li>
+        <li><a href="local/path">local/path</a></li>
+        <li><a href="ftp://ftp.com/my.zip">ftp://ftp.com/my.zip</a></li>
+        <li><a href="http://nodejs.org">http://nodejs.org</a></li>
+        <li><a href="http://internal.com/test">http://internal.com/test</a></li>
+    </ul>
+
+    <script>
+        // ...your code...
+        const dom_a = document.querySelectorAll('a');
+        for (let i = 0; i < dom_a.length; i += 1) {
+            const href = dom_a[i].getAttribute('href');
+            if (!href) continue;
+            if (!href.includes('//')) continue;
+            if (href.startsWith('http://internal.com')) continue;
+            dom_a[i].style.color = 'orange';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,2 +1,2 @@
-let regexp = /^(http)|(ftp)|(file)\:\/\/([a-z]+)\.([a-z0-9]+)\.([a-z]+)$/g
-console.log(regexp.test("http://www.oppo"))
+const arr = new Array(2, 3).fill([])
+console.log(arr)
