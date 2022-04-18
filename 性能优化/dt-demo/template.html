@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--引入工具库-->
+    <!-- 为什么这里用相对路径不行 -->
+    <!-- <script src="https://github.com/wilsonpage/fastdom/blob/master/fastdom.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/libs/lodash.js"></script>
+    <script type="text/javascript" src="/libs/fastdom.min.js"></script> -->
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+    <title>Dereck's Backyard Sales!</title>
+</head>
+
+<body>
+    <div id="main"></div>
+    <script>
+        // window.addEventListener('load', event => {
+        //     // Time to Interactive
+        //     let timing = performance.getEntriesByType('navigation')[0];
+        //     let tti = timing.domInteractive - timing.fetchStart;
+        //     console.log(tti);
+        // })
+
+        // 长任务所需时间
+        // let observer = new PerformanceObserver(list => {
+        //     for (const entry of list.getEntries()) {
+        //         console.log(entry);
+        //     }
+        // })
+
+        // observer.observe({
+        //     entryTypes: ['longtask']
+        // })
+
+        // 判断当前页是否正在窗口上
+        // let vEvent = 'visibilitychange';
+        // if (document.webkitHidden != undefined) {
+        //     // webkit 事件名称
+        //     vEvent = 'webkitvisibilitychange';
+        // }
+
+        // function visibilityChanged() {
+        //     if (document.hidden || document.webkitHidden) {
+        //         console.log('Web page is hidden');
+        //     } else {
+        //         console.log('Web page is visible')
+        //     }
+        // }
+
+        // document.addEventListener(vEvent, visibilityChanged, false);
+
+        // 判断用户当前的网络状况
+        // let connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        // let type = connection.effectiveType;
+
+        // function updateConnectionStatus() {
+        //     console.log(`connection type changed from ${type} to ${connection.effectiveType}`);
+        //     type = connection.effectiveType;
+        // }
+
+        // connection.addEventListener('change', updateConnectionStatus);
+    </script>
+</body>
+<script>
+    // 回流
+    // let cards = document.getElementsByClassName('MuiCardMedia-root')
+    // console.log(cards);
+    // const update = () => {
+    //     cards[0].style.width = '800px';
+    // }
+
+    // window.addEventListener('load', update);
+
+    // 布局抖动
+    // let cards = document.getElementsByClassName('MuiCardMedia-root')
+    // const update = timestamp => {
+    //     for (let i = 0; i < cards.length; i += 1) {
+    //         // 读取top值
+    //         fastdom.measure(() => {
+    //             let top = cards[i].offsetTop;
+    //             fastdom.mutate(() => {
+    //                 cards[i].style.width = ((Math.sin(top + timestamp / 1000) + 1) * 500) + 'px';
+    //             })
+    //         })
+    //     }
+    //     window.requestAnimationFrame(update);
+    // }
+    // window.addEventListener('load', update);
+
+    // rAF
+    let cards = document.getElementsByClassName('MyCard-media-7')
+    let debounce = false;
+    window.addEventListener('pointermove', e => {
+        let pos = e.clientX;
+        if (debounce) return;
+        debounce = true; // 一帧内只触发一次
+        window.requestAnimationFrame(() => {
+            changeWidth(pos);
+            debounce = false;
+        })
+    })
+
+    function changeWidth(pos) {
+        for (let i = 0; i < cards.length; i += 1) {
+            cards[i].style.width = ((Math.sin(pos / 1000) + 1) * 500) + 'px';
+        }
+    }
+</script>
+
+</html>
