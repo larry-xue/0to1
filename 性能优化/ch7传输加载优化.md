@@ -14,7 +14,7 @@
 ## HTTP缓存
 
 - Cache-Control/Expires
-- Last-Modified + If-Modified+Since
+- Last-Modified + If-Modified-Since
   - 与时间相关
   - 时间可能不同步
 - E-tag: 文件标识
