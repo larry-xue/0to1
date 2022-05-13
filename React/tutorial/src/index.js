@@ -35,9 +35,8 @@ const Price = () => (
   // 这个双括号不是特殊语法
   // 第一个括号让我们回到了JavaScript环境
   // 第二个括号表示一个对象
-  <h4 style={{ color: '#617d98', fontSize: '0.75rem', marginTop: '0.25rem' }}>
-    $76.49
-  </h4>
+  //  style={{ color: '#617d98', fontSize: '0.75rem', marginTop: '0.25rem' }}
+  <h4>$76.49</h4>
 );
 
 ReactDOM.render(<BookList />, document.getElementById('root'));
