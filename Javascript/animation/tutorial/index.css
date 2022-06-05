@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  margin: 30px;
+  background-color: rgb(123,123,123);
+  border-radius: 20px;
+}
+
+.animated {
+  transition-property: background-color;
+  transition-duration: 3s;
+  transition-delay: .5s;  
+  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
