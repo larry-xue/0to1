@@ -1,3 +1,4 @@
+/*
 var a = 'hello world';
 
 function b() {
@@ -20,6 +21,8 @@ function c() {
 
 c();
 console.log(a);
+
+*/
 
 /**
  * 执行环境的组成：
@@ -47,4 +50,46 @@ console.log(a);
 
 /**
  * javascript的异步是在它之外的其他引擎的工作，而在JavaScript引擎内部，是同步的
+ */
+
+/**
+ * a namespace is a container of variables and functions
+ */
+
+/*
+console.log(
+  JSON.stringify({
+    firstname: 'azoux',
+    isAProgrammer: true,
+    address: { city: 'xm' },
+  })
+);
+
+*/
+
+/**
+ * First class function
+ * in javascript, function is a special object
+ * the function code you write is just one of its property
+ * there are other things attachs to the function
+ * function is more than a code container
+ */
+
+const func1 = function () {
+  console.log(123);
+};
+
+// func1.code = 'code';
+
+console.dir(func1);
+
+/**
+ * expression & statement
+ * expression will return a value
+ * statement is the cell of code
+ * function is an expression
+ */
+
+/**
+ * mutate an object = change an object
  */
