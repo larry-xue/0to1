@@ -1,28 +1,15 @@
-class Sorter {
-  constructor(public collections: number[] | string) {}
-  sort(): void {
-    const { length } = this.collections;
+import { Sorter } from './Sorter';
+import { NumberCollection } from './NumberCollection';
+import { CharactersCollecion } from './CharactersCollection';
+import { LinkedList } from './LinkedListCollection';
 
-    for (let i = 0; i < length; i += 1) {
-      for (let j = 0; j < length - i - 1; j += 1) {
-        // type guard
-        // if collection is a array
-        if (Array.isArray(this.collections)) {
-          if (this.collections[j] > this.collections[j + 1]) {
-            [this.collections[j + 1], this.collections[j]] = [
-              this.collections[j],
-              this.collections[j + 1],
-            ];
-          }
-        }
-        if (typeof this.collections === 'string') {
-          // if collection is a string
-        }
-      }
-    }
-  }
-}
-
-const sorter = new Sorter([10, -2, 3, 0]);
+const numberCollection = new NumberCollection([8, -2, 3, 0]);
+const sorter = new Sorter(numberCollection);
 sorter.sort();
-console.log(sorter.collections);
+console.log(numberCollection.data);
+
+const charactersCollecion = new CharactersCollecion('asdQSDasdvfrvt');
+const charactersSorter = new Sorter(charactersCollecion);
+console.log(charactersCollecion.collection);
+charactersSorter.sort();
+console.log(charactersCollecion.collection);
