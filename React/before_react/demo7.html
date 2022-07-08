@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Domo7</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      /**
+       * Using jsx & react18
+       **/
+      const rootElement = document.getElementById('root');
+      const root = ReactDOM.createRoot(rootElement);
+      const message = (props) => <h1>{props.msg}</h1>;
+      const Message = (props) => <h1>{props.msg}</h1>;
+      const Message2 = (props) => <h1>{props.children}</h1>;
+      const element = (
+        <div
+          className='container'
+          style={{ display: 'flex', flexDirection: 'column' }}
+          id='demo4'>
+          {message({ msg: 'hello azoux' })}
+          // 语法糖 // 如果是大写，就转变为React组件
+          <Message msg='HELLO WORLD' />
+          // another
+          <Message2>'WORLD HELLO'</Message2>
+        </div>
+      );
+
+      // 减少层级
+      const element2 = (
+        <>
+          {message({ msg: 'hello azoux' })}
+          // 语法糖 // 如果是大写，就转变为React组件
+          <Message msg='HELLO WORLD' />
+          // another
+          <Message2>'WORLD HELLO'</Message2>
+        </>
+      );
+
+      root.render(element2);
+    </script>
+  </body>
+</html>
