@@ -1,0 +1,120 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+type myHandler struct{}
+
+func (mh myHandler) ServeHTTP(r http.ResponseWriter, w *http.Request) {
+	r.Write([]byte("hahahaha test handle"))
+}
+
+type special struct{}
+
+func (s special) ServeHTTP(r http.ResponseWriter, w *http.Request) {
+	r.Write([]byte("special"))
+}
+
+func specialFunc(r http.ResponseWriter, w *http.Request) {
+	r.Write([]byte("12312312312312312312312312"))
+}
+
+func hhh(r http.ResponseWriter, w *http.Request) {
+	r.Write([]byte("asdasd"))
+}
+
+func main() {
+	http.HandleFunc("/hhh/123", hhh)
+
+	http.Handle("/myhandle", myHandler{})
+	http.Handle("/123", http.HandlerFunc(hhh))
+
+	// 返回文件
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.URL.Path)
+		http.ServeFile(w, r, "wwwroot/index.html")
+	})
+
+	fmt.Println("server run on http://localhost:8081")
+	// DefaultServeMux 多路复用器
+	// http.Server可配置
+	server := http.Server{
+		Addr: "localhost:8081",
+		// Handler: myHandler{},
+		Handler: nil,
+		// Handler: http.StripPrefix("/hhh", special{}),
+		// Handler: http.StripPrefix("/hhh", http.HandlerFunc(specialFunc)),
+	}
+
+	// http.ListenAndServe(":8081", nil)
+	server.ListenAndServe()
+
+	// 返回文件简化版
+	// http.ListenAndServe(":8080", http.FileServer(http.Dir("wwwroot")))
+}
+
+
+////////////////////////////////
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+type myHandler struct{}
+
+func (mh myHandler) ServeHTTP(r http.ResponseWriter, w *http.Request) {
+	r.Write([]byte("hahahaha test handle"))
+}
+
+type special struct{}
+
+func (s special) ServeHTTP(r http.ResponseWriter, w *http.Request) {
+	r.Write([]byte("special"))
+}
+
+func specialFunc(r http.ResponseWriter, w *http.Request) {
+	r.Write([]byte("12312312312312312312312312"))
+}
+
+func hhh(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("asdasd"))
+	fmt.Fprintln(w, r.URL.Fragment)
+	// 查看query参数
+	url := r.URL
+	query := url.Query()
+	fmt.Println(query)
+}
+
+func main() {
+	http.HandleFunc("/hhh/123", hhh)
+
+	http.Handle("/myhandle", myHandler{})
+	http.Handle("/123", http.HandlerFunc(hhh))
+
+	// 返回文件
+	http.HandleFunc("/file", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.URL.Path)
+		http.ServeFile(w, r, "wwwroot/index.html")
+	})
+
+	fmt.Println("server run on http://localhost:8081")
+	// DefaultServeMux 多路复用器
+	// http.Server可配置
+	server := http.Server{
+		Addr: "localhost:8081",
+		// Handler: myHandler{},
+		Handler: nil,
+		// Handler: http.StripPrefix("/hhh", special{}),
+		// Handler: http.StripPrefix("/hhh", http.HandlerFunc(specialFunc)),
+	}
+
+	// http.ListenAndServe(":8081", nil)
+	server.ListenAndServe()
+
+	// 返回文件简化版
+	// http.ListenAndServe(":8080", http.FileServer(http.Dir("wwwroot")))
+}

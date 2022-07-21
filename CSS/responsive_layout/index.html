@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #root {
+        width: 100%;
+        height: 200px;
+      }
+
+      .box {
+        float: left;
+        height: 100px;
+      }
+
+      /* 1 row 1 */
+      @media screen and (max-device-width: 200px) {
+        #root {
+          background-color: red;
+        }
+        .box {
+          width: 100%;
+        }
+      }
+      /* 2 row 3 */
+      @media screen and (min-device-width: 201px) and (max-device-width: 400px) {
+        #root {
+          background-color: blue;
+        }
+        .box {
+          width: 50%;
+        }
+      }
+
+      /* 1 row 3 */
+      @media screen and (min-device-width: 401px) {
+        #root {
+          background-color: yellow;
+        }
+        .box {
+          width: 33%;
+        }
+      }
+
+      .input {
+        display: flex;
+        max-width: 250px;
+        margin: 0;
+        padding: 0;
+        border: 1px solid black;
+        background-color: #eee;
+        align-items: center;
+      }
+
+      .input div {
+        flex: 1;
+        text-align: center;
+      }
+
+      .input input {
+        border: none;
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="box" style="background-color: green"></div>
+      <div class="box" style="background-color: burlywood"></div>
+      <div class="box" style="background-color: sandybrown"></div>
+    </div>
+
+    <div class="input">
+      <div class="title">姓名</div>
+      <input type="text" />
+      <div class="link">GO</div>
+    </div>
+  </body>
+</html>
