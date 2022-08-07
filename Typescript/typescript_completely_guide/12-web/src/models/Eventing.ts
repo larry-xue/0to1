@@ -3,13 +3,14 @@ type Callback = () => void;
 export class Eventing {
   private events: { [key: string]: Callback[] } = {};
 
-  on(eventName: string, callback: Callback) {
+  on = (eventName: string, callback: Callback) => {
     const handler = this.events[eventName] || [];
     handler.push(callback);
     this.events[eventName] = handler;
-  }
+    console.log(this.events);
+  };
 
-  trigger(eventName: string) {
+  trigger = (eventName: string) => {
     const handler = this.events[eventName];
 
     if (!handler || handler.length === 0) {
@@ -17,5 +18,5 @@ export class Eventing {
     }
 
     handler.forEach((callback) => callback());
-  }
+  };
 }
