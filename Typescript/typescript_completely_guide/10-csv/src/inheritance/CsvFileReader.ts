@@ -19,3 +19,5 @@ export abstract class CsvFileReader<T> {
   }
   abstract mapRow(row: string[]): T;
 }
+
+// 把mapRow的实现交给具体的函数

@@ -20,3 +20,5 @@ export class MatchReader extends CsvFileReader<MatchData> {
     ];
   }
 }
+
+// 对于不同的csv文件，需要实现不同的class，并继承csvReader

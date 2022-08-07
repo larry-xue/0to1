@@ -31,3 +31,7 @@ export class MatchReader {
     });
   }
 }
+
+// 通过class的静态方法，对应使用不同的具体class
+// 并在具体的class中实现了read方法
+// 这样在后续新增对不同文件的处理时，会更加灵活嘛？？
