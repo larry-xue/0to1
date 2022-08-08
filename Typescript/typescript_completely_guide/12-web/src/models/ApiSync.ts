@@ -4,21 +4,21 @@ interface HasId {
   id?: number;
 }
 
-export class Sync<T extends HasId> {
+export class ApiSync<T extends HasId> {
   constructor(private rootUrl: string) {}
 
-  fetch(data: T): AxiosPromise {
-    return axios.get(`${this.rootUrl}${data.id}`);
+  fetch(id: number): AxiosPromise {
+    return axios.get(`${this.rootUrl}${id}`);
   }
 
-  save(data: T): void {
+  save(data: T): AxiosPromise {
     const { id } = data;
     if (id) {
       // update
-      axios.put(`${this.rootUrl}${id}`, data);
+      return axios.put(`${this.rootUrl}${id}`, data);
     } else {
       // create
-      axios.post(this.rootUrl, data);
+      return axios.post(this.rootUrl, data);
     }
   }
 }
