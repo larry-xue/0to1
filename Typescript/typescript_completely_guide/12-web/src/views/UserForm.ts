@@ -1,7 +1,15 @@
-import { Model } from '../models/Model';
+import { User } from '../models/User';
 
 export class UserForm {
-  constructor(public parent: Element, private model: Model) {}
+  constructor(public parent: Element, private model: User) {
+    this.bindModel();
+  }
+
+  bindModel() {
+    this.model.on('change', () => {
+      this.render();
+    });
+  }
 
   eventsMap(): {
     [key: string]: () => void;
@@ -9,6 +17,7 @@ export class UserForm {
     return {
       'mouseover:h1': this.handlers.onHeaderHover,
       'click:.set-age': this.handlers.onSetRandomAge,
+      'click:.set-name': this.handlers.onSetName,
     };
   }
 
@@ -19,6 +28,10 @@ export class UserForm {
     },
     onHeaderHover: () => {
       console.log('Header hover!');
+    },
+    onSetName: () => {
+      const input = this.parent.querySelector('input');
+      if (input) this.model.set({ name: input.name });
     },
   };
 
@@ -41,11 +54,14 @@ export class UserForm {
       <div>User age: ${this.model.get('age')}</div>
       <input />
       <button>Click Me</button>
+      <button class="set-name">Set Name</button>
       <button class="set-age">Set Random Age</button>
     </div>`;
   }
 
   render(): void {
+    this.parent.innerHTML = '';
+
     const templateElement = document.createElement('template');
     templateElement.innerHTML = this.template();
     this.bindEvents(templateElement.content);
