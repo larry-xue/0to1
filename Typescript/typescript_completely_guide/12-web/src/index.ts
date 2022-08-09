@@ -1,11 +1,8 @@
 import { Collections } from './models/Collections';
+import { User } from './models/User';
 import { UserForm } from './views/UserForm';
 
-// const user = User.buildUser({ id: 1 });
-// user.fetch();
-// user.on('change', () => {
-//   console.log(user);
-// });
+const user = User.buildUser({ name: 'azoux 123', age: 12 });
 // const collection = Collections.buildUserCollection();
 // collection.on('change', () => {
 //   console.log(collection);
@@ -14,6 +11,6 @@ import { UserForm } from './views/UserForm';
 
 const root = document.getElementById('root');
 if (root) {
-  const userForm = new UserForm(root);
+  const userForm = new UserForm(root, user);
   userForm.render();
 }
