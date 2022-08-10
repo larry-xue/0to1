@@ -13,6 +13,8 @@ export class ApiSync<T extends HasId> {
 
   save(data: T): AxiosPromise {
     const { id } = data;
+    console.log('in update');
+
     if (id) {
       // update
       return axios.put(`${this.rootUrl}${id}`, data);
