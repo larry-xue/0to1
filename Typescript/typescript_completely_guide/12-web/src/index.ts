@@ -12,6 +12,7 @@ const user = User.buildUser({ name: 'azoux 123', age: 12 });
 const root = document.getElementById('root');
 if (root) {
   const userEdit = new UserEdit(root, user);
-  userEdit.render();
   console.log(userEdit);
+
+  userEdit.render();
 }

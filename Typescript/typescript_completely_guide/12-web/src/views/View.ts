@@ -18,9 +18,13 @@ export abstract class View<T extends Model<K>, K extends HasId> {
 
   bindModel() {
     this.model.on('change', () => {
+      console.log(this);
       this.render();
     });
   }
+
+  onRender(): void {}
+
   render(): void {
     this.parent.innerHTML = '';
     const templateElement = document.createElement('template');
@@ -28,6 +32,9 @@ export abstract class View<T extends Model<K>, K extends HasId> {
 
     this.mapRegions(templateElement.content);
     this.bindEvents(templateElement.content);
+
+    // nest view
+    this.onRender();
     this.parent.append(templateElement.content);
   }
 
