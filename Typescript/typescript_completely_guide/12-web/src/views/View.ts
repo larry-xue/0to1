@@ -9,6 +9,9 @@ export abstract class View<T extends Model<K>, K extends HasId> {
     this.bindModel();
   }
 
+  // 存放选择器以及对应的DOM对象
+  regions: { [key: string]: Element } = {};
+
   eventsMap(): { [key: string]: () => void } {
     return {};
   }
@@ -20,11 +23,23 @@ export abstract class View<T extends Model<K>, K extends HasId> {
   }
   render(): void {
     this.parent.innerHTML = '';
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = this.template();
+
+    this.mapRegions(templateElement.content);
     this.bindEvents(templateElement.content);
     this.parent.append(templateElement.content);
+  }
+
+  mapRegions(fragment: DocumentFragment): void {
+    const regionsMap = this.regionsMap();
+    for (let key in regionsMap) {
+      const selector = regionsMap[key];
+      const element = fragment.querySelector(selector);
+      if (element) {
+        this.regions[key] = element;
+      }
+    }
   }
 
   bindEvents(fragment: DocumentFragment): void {
@@ -36,6 +51,10 @@ export abstract class View<T extends Model<K>, K extends HasId> {
         element.addEventListener(eventName, handler);
       });
     }
+  }
+
+  regionsMap(): { [key: string]: string } {
+    return {};
   }
 
   abstract template(): string;
