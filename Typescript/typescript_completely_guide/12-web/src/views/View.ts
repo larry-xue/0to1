@@ -18,7 +18,9 @@ export abstract class View<T extends Model<K>, K extends HasId> {
 
   bindModel() {
     this.model.on('change', () => {
-      console.log(this);
+      // 相同的事件会被压进数组，然后诸葛调用=
+      // console.log('trigger events:');
+      // console.log(this);
       this.render();
     });
   }

@@ -4,6 +4,7 @@ export class Eventing {
   private events: { [key: string]: Callback[] } = {};
 
   on = (eventName: string, callback: Callback) => {
+    // 相同的事件会被压进数组，然后诸葛调用
     const handler = this.events[eventName] || [];
     handler.push(callback);
     this.events[eventName] = handler;
