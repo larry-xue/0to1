@@ -21,5 +21,11 @@ router.get('/login', (req, res) => {
 });
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    res.send(email + password);
+    if (email && password && email === 'hi@hi.com' && password === '123456') {
+        // mark this person as logged in
+        // redirect them to the root route
+    }
+    else {
+        res.send('Invalid email or password');
+    }
 });
