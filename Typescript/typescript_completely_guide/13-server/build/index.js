@@ -9,7 +9,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_session_1 = __importDefault(require("cookie-session"));
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-// keys is going to encode session
+// keys is going to encode cookie
 app.use((0, cookie_session_1.default)({ keys: ['asd21daAscdxaDA6zcadZxqawdq2Fd'] }));
 app.use(loginRoutes_1.router);
 app.listen(3000, () => {

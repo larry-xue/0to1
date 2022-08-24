@@ -6,7 +6,7 @@ import cookieSession from 'cookie-session';
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
-// keys is going to encode session
+// keys is going to encode cookie
 app.use(cookieSession({ keys: ['asd21daAscdxaDA6zcadZxqawdq2Fd'] }));
 app.use(router);
 

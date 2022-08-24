@@ -1,7 +1,17 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 
 interface RequestWithBody extends Request {
   body: { [key: string]: string | undefined };
+}
+
+function requireAuth(req: Request, res: Response, next: NextFunction): void {
+  if (req.session && req.session.loggedIn) {
+    next();
+    return;
+  }
+
+  res.status(403);
+  res.send('Not permitted');
 }
 
 const router = Router();
@@ -60,5 +70,20 @@ router.get('/logout', (req: Request, res: Response) => {
   req.session = undefined;
   res.redirect('/');
 });
+
+router.get(
+  '/protected',
+  requireAuth,
+  (req: Request, res: Response, next: NextFunction) => {
+    // express的独立请求也支持类似中间件的方式
+    // 通过next函数来去决定是否跳转到下一个路由
+    console.log('middle ware');
+    next();
+    return;
+  },
+  (req: Request, res: Response) => {
+    res.send('Welcome to protected route, logged in user');
+  }
+);
 
 export { router };
