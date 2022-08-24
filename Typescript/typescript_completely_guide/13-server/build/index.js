@@ -6,8 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const loginRoutes_1 = require("./routes/loginRoutes");
 const body_parser_1 = __importDefault(require("body-parser"));
+const cookie_session_1 = __importDefault(require("cookie-session"));
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.urlencoded({ extended: true }));
+// keys is going to encode session
+app.use((0, cookie_session_1.default)({ keys: ['asd21daAscdxaDA6zcadZxqawdq2Fd'] }));
 app.use(loginRoutes_1.router);
 app.listen(3000, () => {
     console.log('server is listening on port 3000!');
