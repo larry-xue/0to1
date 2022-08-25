@@ -1,3 +1,4 @@
+@classDecorator
 class Boat {
   color: string = 'red';
 
@@ -6,15 +7,18 @@ class Boat {
   }
 
   @logErrorFactory('!error message!')
-  pilot(): void {
-    console.log('swish');
-    throw new Error('test err');
+  pilot(
+    @parameterDecorator speed: string,
+    @parameterDecorator generateWake: boolean
+  ): void {
+    if (speed === 'fast') console.log('swish');
+    else console.log('nothing');
   }
 }
 
 function logError(target: any, key: string, desc: PropertyDescriptor): void {
+  console.log(target[key]);
   const method = desc.value;
-
   desc.value = function () {
     try {
       method();
@@ -41,4 +45,12 @@ function logErrorFactory(errorMessage: string) {
   };
 }
 
-new Boat().pilot();
+function parameterDecorator(target: any, key: string, index: number): void {
+  console.log(target, key, index);
+}
+
+function classDecorator(constructor: typeof Boat) {
+  console.log(constructor);
+}
+
+// new Boat().pilot();
