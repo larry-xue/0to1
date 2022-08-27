@@ -7,3 +7,11 @@ type definition file 并不总是准确的
 # soution
 
 可以在代码中定义一个新的接口，基础原本的类，这样就可以在最小修改的情况下完成 ts 适配
+
+# metadata
+
+- proposed feature to be added to Javascript(and thus TS
+- Snippets of info that can be tied to a method, property, or class definition
+- Typescript will(optionally) provide type information as metadata
+- can be used for super custom stuff
+- Read and written using the reflect-metadata package
