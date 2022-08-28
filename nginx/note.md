@@ -185,3 +185,8 @@ the most used context in nginx
     }
   }
 ```
+
+### Rewrites & Redirects
+
+- Redirects will change the uri directly
+- Rewrites seems like proxy
