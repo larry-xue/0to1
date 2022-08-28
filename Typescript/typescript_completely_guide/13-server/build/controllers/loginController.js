@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginController = void 0;
 const routes_1 = require("./decorators/routes");
+const controller_1 = require("./decorators/controller");
 let LoginController = class LoginController {
     getLogin(req, res) {
         res.send(`
@@ -18,7 +18,7 @@ let LoginController = class LoginController {
       <div>
         <label>Email</label>
         <input name="email" />
-      </div>
+      </div> 
       <div>
         <label>Password</label>
         <input name="password" type="password"/>
@@ -35,6 +35,5 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LoginController.prototype, "getLogin", null);
 LoginController = __decorate([
-    constoller('/')
+    (0, controller_1.controller)('/auth')
 ], LoginController);
-exports.LoginController = LoginController;

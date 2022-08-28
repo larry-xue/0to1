@@ -1,7 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { get } from './decorators/routes';
-@constoller('/')
-export class LoginController {
+import { controller } from './decorators/controller';
+@controller('/auth')
+class LoginController {
   @get('/login')
   getLogin(req: Request, res: Response) {
     res.send(
@@ -10,7 +11,7 @@ export class LoginController {
       <div>
         <label>Email</label>
         <input name="email" />
-      </div>
+      </div> 
       <div>
         <label>Password</label>
         <input name="password" type="password"/>
