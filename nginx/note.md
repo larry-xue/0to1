@@ -257,3 +257,19 @@ server {
   - anything that failed or didn't happen as expected
 - access log
   - log all requests to the server
+
+```conf
+server {
+  listen 80;
+  server_name 23.94.0.105;
+
+  root /sites/demo;
+
+
+  location /secure {
+    # set custom log file
+    access_log logs/access.log combined;
+    return 200 'hello secure';
+  }
+}
+```
