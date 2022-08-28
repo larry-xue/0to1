@@ -110,3 +110,49 @@ http {
 ### location
 
 the most used context in nginx
+
+- match rule in nginx:
+  1. Exact Match
+  2. Preferential Prefix Match
+  3. Regexp Match
+  4. Prefix Match
+
+```conf
+  server {
+    listen 80;
+    server_name 23.94.0.105;
+
+    root /sites/demo;
+
+    # prefix match
+    location /greet {
+      return 200 'Hello from Nginx "/greet" location';
+    }
+
+    # Preferential Prefix match
+    # more important than regexp
+    location ^~ /Greet2 {
+      return 200 'Hello from Nginx "/greet" location -- Preferential prefix match';
+    }
+
+    # exact match
+    location = /hello {
+      return 200 'Hello from Nginx "/hello" location - EXACT MATCH';
+    }
+
+    # regexp match - case sensitive
+    location ~ /greet[0-9] {
+      return 200 'Hello from Nginx "/greet" location - REGEXP MATCH';
+    }
+    # regexp match - case insensitive
+    # regexp match wins normal prefix match
+    location ~* /greet[0-9] {
+      return 200 'Hello from Nginx "/greet" location - REGEXP MATCH case in sensitive';
+    }
+  }
+```
+
+### variables
+
+- Configuration Variables
+- [NGINX Module Variables](https://nginx.org/en/docs/varindex.html)
