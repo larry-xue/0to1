@@ -156,3 +156,32 @@ the most used context in nginx
 
 - Configuration Variables
 - [NGINX Module Variables](https://nginx.org/en/docs/varindex.html)
+
+```conf
+  server {
+    listen 80;
+    server_name 23.94.0.105;
+
+    root /sites/demo;
+
+    if ( $arg_apikey != 1234 ) {
+      return 401 "Incorrect API Key";
+    }
+
+    set $weekend 'No'; # string number or boolean
+
+    # Check if weekend
+    if ( $data_local ~ 'Saturday|Sunday' ) {
+      set $weekend 'Yes';
+    }
+
+    location /is_weekend {
+      return 200 $weekend;
+    }
+
+    location /inspect {
+
+      return 200 "$host\n$uri\n$args\n$arg_name";
+    }
+  }
+```
