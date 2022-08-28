@@ -158,35 +158,102 @@ the most used context in nginx
 - [NGINX Module Variables](https://nginx.org/en/docs/varindex.html)
 
 ```conf
-  server {
-    listen 80;
-    server_name 23.94.0.105;
+server {
+  listen 80;
+  server_name 23.94.0.105;
 
-    root /sites/demo;
+  root /sites/demo;
 
-    if ( $arg_apikey != 1234 ) {
-      return 401 "Incorrect API Key";
-    }
-
-    set $weekend 'No'; # string number or boolean
-
-    # Check if weekend
-    if ( $data_local ~ 'Saturday|Sunday' ) {
-      set $weekend 'Yes';
-    }
-
-    location /is_weekend {
-      return 200 $weekend;
-    }
-
-    location /inspect {
-
-      return 200 "$host\n$uri\n$args\n$arg_name";
-    }
+  if ( $arg_apikey != 1234 ) {
+    return 401 "Incorrect API Key";
   }
+
+  set $weekend 'No'; # string number or boolean
+
+  # Check if weekend
+  if ( $data_local ~ 'Saturday|Sunday' ) {
+    set $weekend 'Yes';
+  }
+
+  location /is_weekend {
+    return 200 $weekend;
+  }
+
+  location /inspect {
+
+    return 200 "$host\n$uri\n$args\n$arg_name";
+  }
+}
 ```
 
 ### Rewrites & Redirects
 
 - Redirects will change the uri directly
 - Rewrites seems like proxy
+
+```conf
+server {
+  listen 80;
+  server_name 23.94.0.105;
+
+  root /sites/demo;
+
+  # redirect
+  location /logo {
+    return 307 /thumb.png;
+  }
+
+  # rewrite is something like a proxy
+  # you can get the matches as variable
+  # the last keyword means it is the last time for its rewrite
+  rewrite ^/user/(\w+) /greet/$1 last;
+  rewrite ^/greet/john /thumb.png;
+
+  location /greet {
+    return 200 'hello';
+  }
+
+  location = /greet/john {
+    return 200 'hello john';
+  }
+}
+```
+
+### try files & named locations
+
+```conf
+server {
+  try_files path1 path2 final;
+  location / {
+    try_files path1 path2 final;
+  }
+}
+
+server {
+  listen 80;
+  server_name 23.94.0.105;
+
+  root /sites/demo;
+
+  # nginx will check if /sites/thumb.png exists, if it exits, then return
+  # or check wheather /greet exist
+  # $uri means try itself before other default uri
+  try_files $uri /cat.png @friendly_404;
+
+  # @ is a custom name
+  location @friendly_404 {
+    return 404 'sorry, that file could not be found';
+  }
+
+  location /greet {
+    return 200 'hello';
+  }
+}
+```
+
+### logging
+
+- error log
+  - anything that failed or didn't happen as expected
+- access log
+  - log all requests to the server
