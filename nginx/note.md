@@ -79,3 +79,34 @@ systemctl enable nginx
 ## configuration
 
 main configuration file: /etc/nginx/nginx.conf
+
+### types & include
+
+```conf
+# /etc/nginx/mime.types 里面有nginx支持的文件类型
+events {
+
+}
+
+http {
+  # it means set file suffix with nginx mime types automaticaly
+  include mime.types;
+
+  # set content-type for file suffix custom
+  types {
+    text/html html;
+    text/css css;
+  }
+
+  server {
+    listen 80;
+    server_name 23.94.0.105;
+
+    root /sites/demo;
+  }
+}
+```
+
+### location
+
+the most used context in nginx
