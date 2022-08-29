@@ -1,6 +1,6 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { get } from './decorators/routes';
-import { controller } from './decorators/controller';
+import { Request, Response } from 'express';
+// need add /index, maybe i need adjust some tsconfig
+import { get, controller } from './decorators/index';
 @controller('/auth')
 class LoginController {
   @get('/login')
