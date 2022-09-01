@@ -5,6 +5,18 @@
 - low resource usage
 - do not need to involve any server languages
 
+## Basice Functionality
+
+### control nginx processes at runtime
+
+- nginx has a master process and one or more worker process.
+  - the master process deal with conf and maintain worker process.
+  - the worker process deal with the actual requests.
+- we can use nginx -s \<signal\> to control the nginx process
+  - nginx -s start
+  - nginx -s stop
+  - nginx -s reload
+
 ## Linux Package Manager
 
 - Quick & Easy
@@ -71,7 +83,7 @@ systemctl enable nginx
 
 ## understand configuration terms
 
-- context
+- Context
   - Context are the enviroment for its child.
 - Directive
   - Configuration options in Nginx are known as directives. This option has name and parameters, and this must end with a semicolon (;) otherwise Nginx will fail to load the configuration and produce an error.
