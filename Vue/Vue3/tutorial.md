@@ -1,5 +1,161 @@
 # Vue3
 
+- 组合式 API
+- 声明式 API
+
+_以下笔记均以组合式 API 为例_
+
+## 基础使用
+
+reactive api 与 ref api，它们之间的区别在于 reactive 接受的是一个对象，ref 可以接受任何类型的值，它会将接收的值用一个对象包裹起来，然后在 value 属性上暴露，本质上都是使用 js 的 Proxy 对象来劫持，只是因为 Proxy 只接受对象，所以基本类型才需要被包裹后才能使用。
+
+ref 需要通过 value 来访问这个和 reactive 用起来感觉挺割裂的，所以还是统一使用 ref 会简单点
+
+然后如果使用 reactive，watch 钩子可能不会触发
+
+```js
+<script setup>
+import { ref, reactive } from 'vue'
+
+// 组件逻辑
+// 此处声明一些响应式状态
+  const name = ref('azoux')
+  const location = reactive({
+    province: 'fujian',
+    city: 'xiamen'
+  })
+</script>
+
+<template>
+  <h1>Make me dynamic!</h1>
+  <h2>{{ name }}</h2>
+  <div>
+  	<div>province: {{location.province}}</div>
+  	<div>city: {{location.city}}</div>
+  </div>
+</template>
+```
+
+组合式 API 写起来真的很像 React
+
+v-model 是 input 事件与 value 绑定的语法糖
+
+一个猜想，vue3 的模板，接受的是一个 expression，类似于：@click="asd",其中 asd 是一个 expression。然后我想说的是，vue 应该会去检查输入的是 reactive 类型还是 ref 类型，如果是 ref 类型会去自己读取 value 值，而不是我们自己写上去 asd.value。但是为啥 computed 那里我需要返回的仍然是 asd.value，否则是错误的，这个需要进一步的研究
+
+组合式 API 的执行流程是怎么样的？？是和声明式 API 一样嘛
+
+为什么这里面使用又不需要.value 了呢
+
+```js
+<script setup>
+import { ref } from 'vue'
+import ChildComp from './ChildComp.vue'
+
+const childMsg = ref('No child msg yet')
+</script>
+
+<template>
+  <ChildComp @response="(msg) => childMsg = msg" />
+  <p>{{ childMsg }}</p>
+</template>
+```
+
+vue3 的 slot 和 react 用起来是相同了，不需要写 template
+
+vue3 一个很有意思的地方是 template 不再需要一个 root 标签了
+
+不要一开始直接硬上 TS..
+
+## 模板语法
+
+模板中的表达式将被沙盒化，仅能够访问到有限的全局对象列表。该列表中会暴露常用的内置全局对象，比如 Math 和 Date。也可以配置 app.config.
+
+动态指令参数
+
+```html
+<!--
+注意，参数表达式有一些约束，
+参见下面“动态参数值的限制”与“动态参数语法的限制”章节的解释
+-->
+<a v-bind:[attributeName]="url"> ... </a>
+
+<!-- 简写 -->
+<a :[attributeName]="url"> ... </a>
+```
+动态指令绑定事件是不是不能用箭头函数？只能绑定自定义的函数
+
+## 响应式基础（todo）
+
+ref() 让我们能创造一种对任意值的 “引用”，这个听起来有点意思，ref的value值是响应式的，当ref的value被替换的时候，会自动用reactive去替转换替换的对象、
+
+
+ref 在模板中的解包，当 ref 在模板(template)中作为顶层属性被访问时，它们会被自动“解包”，所以不需要使用 .value
+```js
+// 那什么是顶层属性？
+let testRef = ref({
+  foo: ref(1)
+})
+
+<div>{{ testRef }}</div> // 不需要写testRef.value
+<div>{{ testRef.foo + 1 }}</div> // foo也是一个ref, 但是它不是顶层属性，如果把它单独提出出来就可以了
+<div>{{ testRef.foo }}</div> // 但是这是一个例外
+```
+
+然后在自动解包的时候是不需要写.value的，这样是访问不到的
+
+浅层响应式对象不会被自动解包（shallowReactive）
+
+数组和集合类型的ref不会自动解包
+```js
+const arr = reactive([ref('Vue 3 guide')])
+console.log(arr[0].value)
+```
+
+## 计算属性
+
+使用起来感觉和vue2的计算属性差别不大，值得注意的是vue3的computed返回的是一个计算属性ref，由于ref在模板字符串中会自动解包，所以使用的时候也不用加value
+
+**计算属性值会基于其响应式依赖被缓存**
+
+```js
+const now = computed(() => Date.now()) // 不会响应式更新
+```
+计算属性依赖的必须也是响应式数据，否则不会更新
+
+- 最佳实践
+  - 避免直接修改计算属性，计算属性相当于是一个快照
+  - 计算属性不应该有副作用
+
+## 类与样式绑定
+
+感觉用处不大，需要的时候可以回来查一下
+
+## 条件渲染
+
+一个比较新的点：如果想用v-if同时控制好几个标签，那可以使用template标签，并且最后template不会被渲染出来
+
+```html
+<template v-if="ok">
+  <h1>Title</h1>
+  <p>Paragraph 1</p>
+  <p>Paragraph 2</p>
+</template>
+```
+
+v-show不支持在templete上使用
+
+v-if和v-for同时存在于一个节点上时，v-if 比 v-for 的优先级更高。这意味着 v-if 的条件将无法访问到 v-for 作用域内定义的变量别名
+
+## 列表循环
+
+- 数组
+  - v-for="(value, key) in arr"
+  - v-for="value of arr"
+- 对象
+  - v-for="(value, key, index) in obj"
+
+v-for也可以用在template标签上，然后这样的话可以
+
 ## 事件处理
 
 和 vue2 使用起来差别不大
