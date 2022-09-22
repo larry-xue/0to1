@@ -4,16 +4,9 @@ import TodoList from './views/TodoList.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="Vue3 todo list!" />
-    </div>
-    <main>
-      <TodoList />
-    </main>
-  </header>
+  <main>
+    <TodoList />
+  </main>
 
 </template>
 
