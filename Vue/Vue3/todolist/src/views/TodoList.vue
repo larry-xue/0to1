@@ -24,3 +24,4 @@ const addTodo = () => {
     <TodoItem v-for="todo in todos" :key="todo.tid" :todo=todo />
   </ul>
 </template>
+
