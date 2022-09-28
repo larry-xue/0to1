@@ -346,3 +346,8 @@ onMounted(() => console.log(itemRefs.value))
 <!-- 子组件 -->
 <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
 ```
+
+### fallthrough attributes
+
+- child component didn't using props or emits to receive attribute from parent component, but it appear after render.
+  - such as: class, style attribute
