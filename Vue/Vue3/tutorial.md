@@ -109,7 +109,7 @@ let testRef = ref({
 数组和集合类型的 ref 不会自动解包
 
 ```js
-const arr = reactive([ref("Vue 3 guide")]);
+const arr = reactive([ref('Vue 3 guide')]);
 console.log(arr[0].value);
 ```
 
@@ -194,8 +194,8 @@ vue3 中很重要的一个概念就是 ref 和响应式对象
 如果希望在创建监听器时，立即执行一遍回调，可以使用 watchEffect
 
 ```js
-import { watch, ref } from "vue";
-const url = ref("1.1.1.1/api");
+import { watch, ref } from 'vue';
+const url = ref('1.1.1.1/api');
 const data = ref(null);
 const fetchData = async function () {
   try {
@@ -273,7 +273,7 @@ onMounted(() => console.log(itemRefs.value))
 
 > 如果一个子组件使用的是选项式 API 或没有使用 \\<script setup\>，被引用的组件实例和该子组件的 this 完全一致，这意味着父组件对子组件的每一个属性和方法都有完全的访问权。这使得在父组件和子组件之间创建紧密耦合的实现细节变得很容易，当然也因此，应该只在绝对需要时才使用组件引用。大多数情况下，你应该首先使用标准的 props 和 emit 接口来实现父子组件交互。
 
-> 有一个例外的情况，使用了 \<script setup\> 的组件是默认私有的：一个父组件无法访问到一个使用了 <script setup> 的子组件中的任何东西，除非子组件在其中通过 defineExpose 宏显式暴露：
+> 有一个例外的情况，使用了 \<script setup\> 的组件是默认私有的：一个父组件无法访问到一个使用了 \<script setup\> 的子组件中的任何东西，除非子组件在其中通过 defineExpose 宏显式暴露：
 
 ## 深入组件
 
@@ -333,21 +333,49 @@ onMounted(() => console.log(itemRefs.value))
     - 字符对象
     - 也支持对象语法
   - 可以覆盖原生事件:定义同名事件
-  - 自定义v-model
-    - 可以用get set函数
-    - 绑定多个v-model
+  - 自定义 v-model
+    - 可以用 get set 函数
+    - 绑定多个 v-model
 
 ```html
 <!-- v-model 参数 -->
 <childComponent v-model="search" />
 <!-- 会被解析为: -->
-<childComponent @update:modelValue="newValue => search = newValue" :modelValue="search" />
+<childComponent
+  @update:modelValue="newValue => search = newValue"
+  :modelValue="search"
+/>
 
 <!-- 子组件 -->
-<input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
+<input
+  :value="modelValue"
+  @input="$emit('update:modelValue', $event.target.value)"
+/>
 ```
 
 ### fallthrough attributes
 
 - child component didn't using props or emits to receive attribute from parent component, but it appear after render.
   - such as: class, style attribute
+- forbid fallthrough attributes
+- $attrs, control the all attributes
+- 透传 attributes 在 JavaScript 中保留了它们原始的大小写
+- 多根节点的 attributes 继承，需要使用 v-bind 绑定$attrs, 否则 vue 会有警告
+- 也可以使用 useAttrs()访问所有透传属性
+
+### slot
+
+- slot标签是插槽出口
+- 插槽中的内容只能访问父组件的作用域，无法访问子组件的作用域
+- 默认内容，在父组件没有提供插槽时显示
+- 具名插槽，父组件使用v-slot指定插槽名
+  - v-slot:header
+  - 缩写：#header
+    - #default 表示默认插槽
+  - 支持动态插槽名
+- 作用域插槽
+  - 用来解决插槽无法访问到父组件数据的痛点
+  - 可以访问子组件在slot标签上绑定的属性
+    - \<slot :text="greetingMessage" >\</slot>
+    - \<MyComponent v-slot="slotProps"\>\{\{ slotProps.greetingMessage \}\}
+    - name是vue特意保留的一个prop，不会传递给插槽
