@@ -356,6 +356,7 @@ onMounted(() => console.log(itemRefs.value))
 ### fallthrough attributes
 
 - child component didn't using props or emits to receive attribute from parent component, but it appear after render.
+<<<<<<< HEAD
   - such as: class, style attribute
 - forbid fallthrough attributes
 - $attrs, control the all attributes
@@ -379,3 +380,146 @@ onMounted(() => console.log(itemRefs.value))
     - \<slot :text="greetingMessage" >\</slot>
     - \<MyComponent v-slot="slotProps"\>\{\{ slotProps.greetingMessage \}\}
     - name是vue特意保留的一个prop，不会传递给插槽
+=======
+
+  - such as: class, style attribute
+
+- 无渲染组件，即子组件完全把渲染的工作交给父组件，自己只完成计算，但是无渲染组件可以用组合式函数以一种更高级的方式完成。
+
+### provide & inject
+
+- react: useMemo
+- provide
+  - 提供的值可以是任何类型，如果提供的是响应式状态，后代使用时也是响应式的
+    - 提供响应式数据时，最好将声明和变更都内聚在一个组件中，这样更方便维护
+    - 父组件可以用 readonly 包裹，以免传递的数据被修改
+    - 那么子组件如何通知父组件变更？
+  - 适合写插件
+  - 可以用 Symbol 当作 key，用一个文件导出维护的 key 值
+- inject
+  - 引入 provide 提供的值
+  - 可以提供一个默认值，以免祖先没有提供该值时，vue 抛出警告
+
+### async component
+
+- 按需加载
+  - 网络情况太好的话，加载组件替换太快，会造成闪烁
+- 配合内置的\<Suspense\>组件使用
+- thought
+  - 比较适合 to b 首屏加载
+  - 能否用其他技术替换？比如填充之类的
+
+## 逻辑复用
+
+### 组合式函数
+
+- 约定与最佳实践
+  - 命名
+    - 驼峰式
+    - use 开头
+  - 输入参数
+    - 兼容 ref
+    - unref
+  - 返回值
+    - 包含多个 ref 的非响应式对象
+    - 从组合式函数返回一个响应式对象会导致在对象解构过程中丢失与组合式函数内状态的响应性连接
+  - 副作用
+    - SSR
+    - 副作用清理
+  - 使用限制
+    - 必须同步调用，让vue确保当前执行的是哪个组件实例
+  - 与Mixin的对比
+    - 数据源不清晰
+    - 命名空间冲突
+    - 隐式跨mixin交流
+  - 无渲染组件
+    - 不会产生额外的组件实例开销
+    - 最佳实践
+      - 纯逻辑复用使用组合式函数
+      - 复用逻辑和视图时使用无渲染组件
+  - 与 React hooks相比
+    - 心智负担小
+    - Vue可以自动收集依赖
+    - 可以有条件地调用
+    - 基于Vue细粒度的响应式系统
+>>>>>>> 8590d3f25387565d8476bddc85f079ca0dc8792c
+- forbid fallthrough attributes
+- $attrs, control the all attributes
+- 透传 attributes 在 JavaScript 中保留了它们原始的大小写
+- 多根节点的 attributes 继承，需要使用 v-bind 绑定$attrs, 否则 vue 会有警告
+- 也可以使用 useAttrs()访问所有透传属性
+
+### slot
+
+- slot标签是插槽出口
+- 插槽中的内容只能访问父组件的作用域，无法访问子组件的作用域
+- 默认内容，在父组件没有提供插槽时显示
+- 具名插槽，父组件使用v-slot指定插槽名
+  - v-slot:header
+  - 缩写：#header
+    - #default 表示默认插槽
+  - 支持动态插槽名
+- 作用域插槽
+  - 用来解决插槽无法访问到父组件数据的痛点
+  - 可以访问子组件在slot标签上绑定的属性
+    - \<slot :text="greetingMessage" >\</slot>
+    - \<MyComponent v-slot="slotProps"\>\{\{ slotProps.greetingMessage \}\}
+    - name是vue特意保留的一个prop，不会传递给插槽
+- 无渲染组件，即子组件完全把渲染的工作交给父组件，自己只完成计算，但是无渲染组件可以用组合式函数以一种更高级的方式完成。
+
+### provide & inject
+
+- react: useMemo
+- provide
+  - 提供的值可以是任何类型，如果提供的是响应式状态，后代使用时也是响应式的
+    - 提供响应式数据时，最好将声明和变更都内聚在一个组件中，这样更方便维护
+    - 父组件可以用 readonly 包裹，以免传递的数据被修改
+    - 那么子组件如何通知父组件变更？
+  - 适合写插件
+  - 可以用 Symbol 当作 key，用一个文件导出维护的 key 值
+- inject
+  - 引入 provide 提供的值
+  - 可以提供一个默认值，以免祖先没有提供该值时，vue 抛出警告
+
+### async component
+
+- 按需加载
+  - 网络情况太好的话，加载组件替换太快，会造成闪烁
+- 配合内置的\<Suspense\>组件使用
+- thought
+  - 比较适合 to b 首屏加载
+  - 能否用其他技术替换？比如填充之类的
+
+## 逻辑复用
+
+### 组合式函数
+
+- 约定与最佳实践
+  - 命名
+    - 驼峰式
+    - use 开头
+  - 输入参数
+    - 兼容 ref
+    - unref
+  - 返回值
+    - 包含多个 ref 的非响应式对象
+    - 从组合式函数返回一个响应式对象会导致在对象解构过程中丢失与组合式函数内状态的响应性连接
+  - 副作用
+    - SSR
+    - 副作用清理
+  - 使用限制
+    - 必须同步调用，让vue确保当前执行的是哪个组件实例
+  - 与Mixin的对比
+    - 数据源不清晰
+    - 命名空间冲突
+    - 隐式跨mixin交流
+  - 无渲染组件
+    - 不会产生额外的组件实例开销
+    - 最佳实践
+      - 纯逻辑复用使用组合式函数
+      - 复用逻辑和视图时使用无渲染组件
+  - 与 React hooks相比
+    - 心智负担小
+    - Vue可以自动收集依赖
+    - 可以有条件地调用
+    - 基于Vue细粒度的响应式系统
