@@ -31,6 +31,7 @@ const addTodo = () => {
   </div>
 </template>
 
+<<<<<<< HEAD
 
 <style scoped>
 .todo-container {
@@ -52,3 +53,5 @@ const addTodo = () => {
 
 }
 </style>
+=======
+>>>>>>> f6f32cc1d7d16116a6c12bef2b3f9e6cbc383dc3

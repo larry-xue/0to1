@@ -82,14 +82,15 @@ vue3 一个很有意思的地方是 template 不再需要一个 root 标签了
 <!-- 简写 -->
 <a :[attributeName]="url"> ... </a>
 ```
+
 动态指令绑定事件是不是不能用箭头函数？只能绑定自定义的函数
 
 ## 响应式基础（todo）
 
-ref() 让我们能创造一种对任意值的 “引用”，这个听起来有点意思，ref的value值是响应式的，当ref的value被替换的时候，会自动用reactive去替转换替换的对象、
-
+ref() 让我们能创造一种对任意值的 “引用”，这个听起来有点意思，ref 的 value 值是响应式的，当 ref 的 value 被替换的时候，会自动用 reactive 去替转换替换的对象、
 
 ref 在模板中的解包，当 ref 在模板(template)中作为顶层属性被访问时，它们会被自动“解包”，所以不需要使用 .value
+
 ```js
 // 那什么是顶层属性？
 let testRef = ref({
@@ -101,25 +102,27 @@ let testRef = ref({
 <div>{{ testRef.foo }}</div> // 但是这是一个例外
 ```
 
-然后在自动解包的时候是不需要写.value的，这样是访问不到的
+然后在自动解包的时候是不需要写.value 的，这样是访问不到的
 
 浅层响应式对象不会被自动解包（shallowReactive）
 
-数组和集合类型的ref不会自动解包
+数组和集合类型的 ref 不会自动解包
+
 ```js
-const arr = reactive([ref('Vue 3 guide')])
-console.log(arr[0].value)
+const arr = reactive([ref("Vue 3 guide")]);
+console.log(arr[0].value);
 ```
 
 ## 计算属性
 
-使用起来感觉和vue2的计算属性差别不大，值得注意的是vue3的computed返回的是一个计算属性ref，由于ref在模板字符串中会自动解包，所以使用的时候也不用加value
+使用起来感觉和 vue2 的计算属性差别不大，值得注意的是 vue3 的 computed 返回的是一个计算属性 ref，由于 ref 在模板字符串中会自动解包，所以使用的时候也不用加 value
 
 **计算属性值会基于其响应式依赖被缓存**
 
 ```js
-const now = computed(() => Date.now()) // 不会响应式更新
+const now = computed(() => Date.now()); // 不会响应式更新
 ```
+
 计算属性依赖的必须也是响应式数据，否则不会更新
 
 - 最佳实践
@@ -132,7 +135,7 @@ const now = computed(() => Date.now()) // 不会响应式更新
 
 ## 条件渲染
 
-一个比较新的点：如果想用v-if同时控制好几个标签，那可以使用template标签，并且最后template不会被渲染出来
+一个比较新的点：如果想用 v-if 同时控制好几个标签，那可以使用 template 标签，并且最后 template 不会被渲染出来
 
 ```html
 <template v-if="ok">
@@ -142,9 +145,9 @@ const now = computed(() => Date.now()) // 不会响应式更新
 </template>
 ```
 
-v-show不支持在templete上使用
+v-show 不支持在 templete 上使用
 
-v-if和v-for同时存在于一个节点上时，v-if 比 v-for 的优先级更高。这意味着 v-if 的条件将无法访问到 v-for 作用域内定义的变量别名
+v-if 和 v-for 同时存在于一个节点上时，v-if 比 v-for 的优先级更高。这意味着 v-if 的条件将无法访问到 v-for 作用域内定义的变量别名
 
 ## 列表循环
 
@@ -154,7 +157,7 @@ v-if和v-for同时存在于一个节点上时，v-if 比 v-for 的优先级更�
 - 对象
   - v-for="(value, key, index) in obj"
 
-v-for也可以用在template标签上，然后这样的话可以
+v-for 也可以用在 template 标签上，然后这样的话可以
 
 ## 事件处理
 
@@ -191,8 +194,8 @@ vue3 中很重要的一个概念就是 ref 和响应式对象
 如果希望在创建监听器时，立即执行一遍回调，可以使用 watchEffect
 
 ```js
-import { watch, ref } from 'vue';
-const url = ref('1.1.1.1/api');
+import { watch, ref } from "vue";
+const url = ref("1.1.1.1/api");
 const data = ref(null);
 const fetchData = async function () {
   try {
@@ -271,3 +274,80 @@ onMounted(() => console.log(itemRefs.value))
 > 如果一个子组件使用的是选项式 API 或没有使用 \\<script setup\>，被引用的组件实例和该子组件的 this 完全一致，这意味着父组件对子组件的每一个属性和方法都有完全的访问权。这使得在父组件和子组件之间创建紧密耦合的实现细节变得很容易，当然也因此，应该只在绝对需要时才使用组件引用。大多数情况下，你应该首先使用标准的 props 和 emit 接口来实现父子组件交互。
 
 > 有一个例外的情况，使用了 \<script setup\> 的组件是默认私有的：一个父组件无法访问到一个使用了 <script setup> 的子组件中的任何东西，除非子组件在其中通过 defineExpose 宏显式暴露：
+
+## 深入组件
+
+### 组件注册
+
+- 组件注册
+  - 全局注册
+  - 局部注册
+    - 就是平常引入组件的方法
+  - - 在 components 对象中注册
+    - app.component('name', compnent)
+- 组件命名的规范
+  - PascalCase
+  - 自闭和标签
+  - kebab-case
+
+### Props 声明
+
+- Props
+  - defineProps() 宏
+    - 接收方式
+      - 字符串数组
+      - 对象(prop 校验)
+  - 静态 & 动态 props
+  - 单向数据流
+    - prop readonly
+    - 修改 prop
+      - computed
+      - 作为 ref 或 reactive 的初始值
+    - 由于对象传递的是引用,所以可以在子组件中修改传入的对象,但是这样做并不推荐
+    - prop 校验
+      - 开发时可以在控制台中获得更多提示
+      - 类型校验
+        - type 可以是原生构造函数
+        - 自定义的类,vue 会通过 instanceOf 判断
+      - boolean 类型转换
+        - bool 值如果有传就是 true,没有传就是 false
+        - 例子: disabled
+
+```html
+<!-- 传递一个对象的多个属性 -->
+<!-- todo是一个object -->
+<!-- React -->
+<TodoItem ...todo />
+<!-- Vue3 -->
+<TodoItem v-bind="todo"></TodoItem>
+```
+
+### 组件事件
+
+- 组件事件
+  - 子组件: $emit 触发
+  - 父组件: @接收
+  - 父组件接收时推荐使用 kebab-case
+  - vue 组件的事件没有冒泡机制
+  - defineEmits
+    - 字符对象
+    - 也支持对象语法
+  - 可以覆盖原生事件:定义同名事件
+  - 自定义v-model
+    - 可以用get set函数
+    - 绑定多个v-model
+
+```html
+<!-- v-model 参数 -->
+<childComponent v-model="search" />
+<!-- 会被解析为: -->
+<childComponent @update:modelValue="newValue => search = newValue" :modelValue="search" />
+
+<!-- 子组件 -->
+<input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
+```
+
+### fallthrough attributes
+
+- child component didn't using props or emits to receive attribute from parent component, but it appear after render.
+  - such as: class, style attribute
