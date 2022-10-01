@@ -356,7 +356,7 @@ onMounted(() => console.log(itemRefs.value))
 ### fallthrough attributes
 
 - child component didn't using props or emits to receive attribute from parent component, but it appear after render.
-<<<<<<< HEAD
+  <<<<<<< HEAD
   - such as: class, style attribute
 - forbid fallthrough attributes
 - $attrs, control the all attributes
@@ -366,21 +366,18 @@ onMounted(() => console.log(itemRefs.value))
 
 ### slot
 
-- slot标签是插槽出口
+- slot 标签是插槽出口
 - 插槽中的内容只能访问父组件的作用域，无法访问子组件的作用域
 - 默认内容，在父组件没有提供插槽时显示
-- 具名插槽，父组件使用v-slot指定插槽名
+- 具名插槽，父组件使用 v-slot 指定插槽名
   - v-slot:header
   - 缩写：#header
     - #default 表示默认插槽
   - 支持动态插槽名
 - 作用域插槽
+
   - 用来解决插槽无法访问到父组件数据的痛点
-  - 可以访问子组件在slot标签上绑定的属性
-    - \<slot :text="greetingMessage" >\</slot>
-    - \<MyComponent v-slot="slotProps"\>\{\{ slotProps.greetingMessage \}\}
-    - name是vue特意保留的一个prop，不会传递给插槽
-=======
+  - # 可以访问子组件在 slot 标签上绑定的属性 - \<slot :text="greetingMessage" >\</slot> - \<MyComponent v-slot="slotProps"\>\{\{ slotProps.greetingMessage \}\} - name 是 vue 特意保留的一个 prop，不会传递给插槽
 
   - such as: class, style attribute
 
@@ -427,22 +424,21 @@ onMounted(() => console.log(itemRefs.value))
     - SSR
     - 副作用清理
   - 使用限制
-    - 必须同步调用，让vue确保当前执行的是哪个组件实例
-  - 与Mixin的对比
+    - 必须同步调用，让 vue 确保当前执行的是哪个组件实例
+  - 与 Mixin 的对比
     - 数据源不清晰
     - 命名空间冲突
-    - 隐式跨mixin交流
+    - 隐式跨 mixin 交流
   - 无渲染组件
     - 不会产生额外的组件实例开销
     - 最佳实践
       - 纯逻辑复用使用组合式函数
       - 复用逻辑和视图时使用无渲染组件
-  - 与 React hooks相比
+  - 与 React hooks 相比
     - 心智负担小
-    - Vue可以自动收集依赖
+    - Vue 可以自动收集依赖
     - 可以有条件地调用
-    - 基于Vue细粒度的响应式系统
->>>>>>> 8590d3f25387565d8476bddc85f079ca0dc8792c
+    - 基于 Vue 细粒度的响应式系统
 - forbid fallthrough attributes
 - $attrs, control the all attributes
 - 透传 attributes 在 JavaScript 中保留了它们原始的大小写
@@ -451,20 +447,20 @@ onMounted(() => console.log(itemRefs.value))
 
 ### slot
 
-- slot标签是插槽出口
+- slot 标签是插槽出口
 - 插槽中的内容只能访问父组件的作用域，无法访问子组件的作用域
 - 默认内容，在父组件没有提供插槽时显示
-- 具名插槽，父组件使用v-slot指定插槽名
+- 具名插槽，父组件使用 v-slot 指定插槽名
   - v-slot:header
   - 缩写：#header
     - #default 表示默认插槽
   - 支持动态插槽名
 - 作用域插槽
   - 用来解决插槽无法访问到父组件数据的痛点
-  - 可以访问子组件在slot标签上绑定的属性
+  - 可以访问子组件在 slot 标签上绑定的属性
     - \<slot :text="greetingMessage" >\</slot>
     - \<MyComponent v-slot="slotProps"\>\{\{ slotProps.greetingMessage \}\}
-    - name是vue特意保留的一个prop，不会传递给插槽
+    - name 是 vue 特意保留的一个 prop，不会传递给插槽
 - 无渲染组件，即子组件完全把渲染的工作交给父组件，自己只完成计算，但是无渲染组件可以用组合式函数以一种更高级的方式完成。
 
 ### provide & inject
@@ -508,18 +504,115 @@ onMounted(() => console.log(itemRefs.value))
     - SSR
     - 副作用清理
   - 使用限制
-    - 必须同步调用，让vue确保当前执行的是哪个组件实例
-  - 与Mixin的对比
+    - 必须同步调用，让 vue 确保当前执行的是哪个组件实例
+  - 与 Mixin 的对比
     - 数据源不清晰
     - 命名空间冲突
-    - 隐式跨mixin交流
+    - 隐式跨 mixin 交流
   - 无渲染组件
     - 不会产生额外的组件实例开销
     - 最佳实践
       - 纯逻辑复用使用组合式函数
       - 复用逻辑和视图时使用无渲染组件
-  - 与 React hooks相比
+  - 与 React hooks 相比
     - 心智负担小
-    - Vue可以自动收集依赖
+    - Vue 可以自动收集依赖
     - 可以有条件地调用
-    - 基于Vue细粒度的响应式系统
+    - 基于 Vue 细粒度的响应式系统
+
+### 自定义指令
+
+- 只有在需要用到原生 dom 操作的时候才应该使用自定义指令。其他情况下应该尽可能地使用 v-bind 这样的内置指令来声明式地使用模板，这样更高效，也对服务端渲染更友好。
+- 指令钩子
+- 总的来说，不推荐在组件上使用自定义指令。
+
+### 插件
+
+- 主要应用场景
+  - 自定义指令
+  - 注入到整个应用中
+  - 全局实例属性或方法
+  - 上述三种功能可能同时包含
+- 谨慎使用，可能会让应用变得难以维护和理解
+- 插件也可以使用 provide 和 inject
+
+## 内置组件
+
+### Transition
+
+- 基于 CSS 的过渡效果
+  - v-enter-from
+  - v-enter-active
+  - v-enter-to
+  - v-leave-from
+  - v-leave-active
+  - v-leave-to
+- prop: name
+  - name=fade
+    - fade-enter-form
+- css 原生动画 与 css transition 的区别
+  - \*-enter-from 不是在元素插入后立即移除，而是在一个 animationend 事件触发时被移除。
+- 自定义过渡 class
+- 同时使用 transition 和 animation
+- 深层级过渡与显示过渡时长
+- 性能考量
+  - 他们在动画过程中不会影响到 DOM 结构，因此不会每一帧都触发昂贵的 CSS 布局重新计算。
+  - 大多数的现代浏览器都可以在执行 transform 动画时利用 GPU 进行硬件加速。
+- Javascript 钩子
+  - 在使用仅由 JavaScript 执行的动画时，最好是添加一个 :css="false" prop。这显式地向 Vue 表明可以跳过对 CSS 过渡的自动探测。除了性能稍好一些之外，还可以防止 CSS 规则意外地干扰过渡效果。
+- 过渡效果复用
+- 出现时过渡
+  - 如果你想在某个节点初次渲染时应用一个过渡效果，你可以添加 appear prop
+- 元素间过渡
+  - 我们也可以通过 v-if / v-else / v-else-if 在几个组件间进行切换，只要确保任一时刻只会有一个元素被渲染即可
+- 过渡模式
+  - 动画执行的顺序
+- 组件间过渡
+  - 动态组件切换
+
+### transitionGroup
+
+- 与 transition 的区别
+  - 默认不会渲染一个容器元素
+  - 过渡模式不可用
+  - 列表中的每个元素必须有独一无二的 key
+  - css 过渡 class 会被应用在列表内的元素上，而不是容器上
+
+### KeepAlive
+
+- 包含 / 排除
+  - keepalive 默认会缓存所有组件实例
+  - 可以用 include 或 exclude 来定制需要缓存的组件
+  - 它会根据组件的 name 选项进行匹配，所以组件如果想要条件性地被 KeepAlive 缓存，就必须显式声明一个 name 选项。
+- 最大缓存实例数
+  - LRU 缓存
+- 缓存实例的生命周期
+  - onActivated
+  - onDeactivated
+  - onActivated 在组件挂载时也会调用，并且 onDeactivated 在组件卸载时也会调用。
+  - 这两个钩子不仅适用于 KeepAlive 缓存的根组件，也适用于缓存树中的后代组件
+
+### Teleport
+
+- 提供了一个可以把指定的 dom 内容传送到指定位置渲染的功能
+  - Teleport 挂载时，传送的 to 目标必须已经存在于 DOM 中。理想情况下，这应该是整个 Vue 应用 DOM 树外部的一个元素。如果目标元素也是由 Vue 渲染的，你需要确保在挂载 Teleport 之前先挂载该元素。
+  - 只改变了渲染的 DOM 结构，它不会影响组件间的逻辑关系
+- 个 Teleport 共享目标
+
+```html
+<button @click="open = true">Open Modal</button>
+
+<Teleport to="body">
+  <div v-if="open" class="modal">
+    <p>Hello from the modal!</p>
+    <button @click="open = false">Close</button>
+  </div>
+</Teleport>
+```
+
+### Suspense
+
+- 实验性功能
+- Suspense 可以等待的异步依赖有两种
+  - 带有异步 setup() 钩子的组件。这也包含了使用 \<script setup\> 时有顶层 await 表达式的组件。
+  - 异步组件
