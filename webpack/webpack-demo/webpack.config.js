@@ -13,14 +13,14 @@ module.exports = {
     index: './src/index.js',
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true, // 清理dist文件夹
     publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Development',
+      title: 'Caching',
     }), new HtmlWebpackPlugin({ // Also generate a test.html
       filename: () => `test.html`,
     }), new WebpackManifestPlugin({})
@@ -62,5 +62,19 @@ module.exports = {
         parse: json5.parse,
       },
     }]
+  },
+  optimization: {
+    // SplitChunksPlugin 可以用于将模块分离到单独的 bundle 中
+    runtimeChunk: 'single',
+    moduleIds: 'deterministic', // 修复 vendor hash 值变化
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    }
   },
 }
