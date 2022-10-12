@@ -28,9 +28,10 @@ module.exports = (env) => {
         filename: () => `test.html`,
       }), new WebpackManifestPlugin({})
     ],
-    devtool: 'inline-source-map', // 追踪代码错误
+    devtool: 'cheap-source-map', // 追踪代码错误
     devServer: {
       static: './dist', // 告知 dev serve 从什么位置查找文件
+      hot: true, // 启用 HMR
     },
     module: {
       rules: [{
