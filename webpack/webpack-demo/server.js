@@ -8,6 +8,7 @@ const compiler = webpack(config);
 
 // 告知 express 使用 webpack-dev-middleware，
 // 以及将 webpack.config.js 配置文件作为基础配置。
+// HMR插件是集成了webpack-dev-middleware插件，但是我们可以自己用webpack-dev-middleware实现一个server，来满足更加定制化的操作
 app.use(
   webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
