@@ -4,10 +4,10 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
-    "start": "webpack serve --open",
+    "start": "webpack serve --open --config webpack.dev.js",
     "server": "node server.js"
   },
   "keywords": [],

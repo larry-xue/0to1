@@ -70,6 +70,7 @@ module.exports = (env) => {
     optimization: {
       // SplitChunksPlugin 可以用于将模块分离到单独的 bundle 中
       runtimeChunk: 'single',
+      usedExports: true, // 确保bundle不会被压缩
       moduleIds: 'deterministic', // 修复 vendor hash 值变化
       splitChunks: {
         cacheGroups: {
