@@ -11,7 +11,6 @@ module.exports = {
   mode: 'development',
   entry: {
     index: './src/index.js',
-    another: './src/another-module.js',
   },
   output: {
     filename: '[name].bundle.js',
@@ -63,12 +62,5 @@ module.exports = {
         parse: json5.parse,
       },
     }]
-  },
-  optimization: {
-    // 因为在这个示例中单个 HTML 页面有多个入口，所以添加了 optimization.runtimeChunk: 'single' 配置
-    // runtimeChunk: 'single',
-    splitChunks: {
-      chunks: 'all',
-    },
   },
 }
