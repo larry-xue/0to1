@@ -1,13 +1,13 @@
 package main
 
-// app 放到包里面以后要导入
 import (
-	"log"
-
 	"github.com/larry-xue/banking/app"
+	"github.com/larry-xue/banking/logger"
 )
 
+// app 放到包里面以后要导入
+
 func main() {
-	log.Println("Starting out application")
+	logger.Info("Starting the application")
 	app.Start()
 }

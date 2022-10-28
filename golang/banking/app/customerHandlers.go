@@ -3,10 +3,10 @@ package app
 import (
 	"encoding/json"
 	"encoding/xml"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/larry-xue/banking/logger"
 	"github.com/larry-xue/banking/service"
 )
 
@@ -30,7 +30,7 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) 
 	vars := mux.Vars(r)
 	customer, err := ch.service.GetCustomer(vars["customer_id"])
 	if err != nil {
-		log.Printf("Error while get customer " + err.Message)
+		logger.Error("Error while get customer " + err.Message)
 		writeResponse(w, err.Code, err.AsMessage())
 	} else {
 		writeResponse(w, http.StatusOK, customer)
@@ -45,12 +45,3 @@ func writeResponse(w http.ResponseWriter, code int, payload interface{}) {
 		panic(err)
 	}
 }
-
-// func getCustomer(w http.ResponseWriter, r *http.Request) {
-// 	vars := mux.Vars(r)
-// 	fmt.Fprint(w, vars["customer_id"])
-// }
-
-// func createCustomer(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Fprint(w, "Post request received!")
-// }
