@@ -10,12 +10,6 @@ import (
 	"github.com/larry-xue/banking/service"
 )
 
-type Customer struct {
-	Name    string `json:"full_name" xml:"name"`
-	City    string `json:"city" xml:"city"`
-	Zipcode int    `json:"zip_code" xml:"zipcode"`
-}
-
 type CustomerHandlers struct {
 	service service.CustomerService
 }
@@ -36,11 +30,19 @@ func (ch *CustomerHandlers) getCustomer(w http.ResponseWriter, r *http.Request) 
 	vars := mux.Vars(r)
 	customer, err := ch.service.GetCustomer(vars["customer_id"])
 	if err != nil {
-		log.Printf("Error while get customer " + err.Error())
-		w.WriteHeader(http.StatusNotFound)
+		log.Printf("Error while get customer " + err.Message)
+		writeResponse(w, err.Code, err.AsMessage())
 	} else {
-		w.Header().Add("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customer)
+		writeResponse(w, http.StatusOK, customer)
+	}
+}
+
+func writeResponse(w http.ResponseWriter, code int, payload interface{}) {
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(code)
+	err := json.NewEncoder(w).Encode(payload)
+	if err != nil {
+		panic(err)
 	}
 }
 

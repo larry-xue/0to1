@@ -1,17 +1,20 @@
 package service
 
-import "github.com/larry-xue/banking/domain"
+import (
+	"github.com/larry-xue/banking/domain"
+	"github.com/larry-xue/banking/errs"
+)
 
 type CustomerService interface {
-	GetAllCustomer() ([]domain.Customer, error)
-	GetCustomer(id string) (*domain.Customer, error)
+	GetAllCustomer() ([]domain.Customer, *errs.AppError)
+	GetCustomer(id string) (*domain.Customer, *errs.AppError)
 }
 
 type DefultCustomerService struct {
 	repo domain.CustomerRepository
 }
 
-func (s DefultCustomerService) GetAllCustomer() ([]domain.Customer, error) {
+func (s DefultCustomerService) GetAllCustomer() ([]domain.Customer, *errs.AppError) {
 	return s.repo.FindAll()
 }
 
@@ -19,6 +22,6 @@ func NewCustomerService(reposity domain.CustomerRepository) DefultCustomerServic
 	return DefultCustomerService{repo: reposity}
 }
 
-func (s DefultCustomerService) GetCustomer(id string) (*domain.Customer, error) {
+func (s DefultCustomerService) GetCustomer(id string) (*domain.Customer, *errs.AppError) {
 	return s.repo.ById(id)
 }
