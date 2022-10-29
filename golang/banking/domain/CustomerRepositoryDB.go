@@ -17,7 +17,8 @@ type CustomerRepositoryDb struct {
 
 func (db CustomerRepositoryDb) FindAll() ([]Customer, *errs.AppError) {
 	findAllSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers"
-	rows, err := db.client.Query(findAllSql)
+	customers := make([]Customer, 0)
+	err := db.client.Select(&customers, findAllSql)
 	if err != nil {
 		logger.Error("Error while querying customers table " + err.Error())
 		return nil, &errs.AppError{
@@ -26,24 +27,14 @@ func (db CustomerRepositoryDb) FindAll() ([]Customer, *errs.AppError) {
 		}
 	}
 
-	customers := make([]Customer, 0)
-	err = sqlx.StructScan(rows, &customers)
-	if err != nil {
-		logger.Error("Error while scanning customers " + err.Error())
-		return nil, &errs.AppError{
-			Message: "Error while scanning customers " + err.Error(),
-			Code:    http.StatusInsufficientStorage,
-		}
-	}
 	return customers, nil
 }
 
 func (db CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 	findAllSql := "select customer_id, name, city, zipcode, date_of_birth, status from customers where customer_id = ?"
 
-	row := db.client.QueryRow(findAllSql, id)
 	var c Customer
-	err := row.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.DateofBirth, &c.Status)
+	err := db.client.Get(&c, findAllSql, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errs.NewNotFoundError("Customer not found")
